@@ -116,57 +116,91 @@
 
     <!-- Modal popup -->
     <div v-if="show" class="modal-backdrop" @click.self="closeModal">
+      <!-- div หลักของ modal 
+       - v-if="show" → แสดง modal ก็ต่อเมื่อค่า show = true 
+       - class="modal-backdrop" → ใส่สไตล์พื้นหลังดำโปร่งแสง 
+       - @click.self="closeModal" → ถ้าคลิกตรง backdrop (ไม่ใช่ใน modal) จะปิด modal -->
+
       <div class="modal">
+        <!-- กล่อง modal หลักที่อยู่ตรงกลางหน้าจอ -->
+
         <header class="modal-header">
+          <!-- ส่วนหัวของ modal (แถบด้านบน) -->
           <h2>{{ modal?.name }}</h2>
+          <!-- แสดงชื่อของ launch โดยใช้ optional chaining (?.) กัน error กรณี modal ไม่มีค่า -->
           <!-- (2.1 ชื่อ) -->
+
           <button class="close-btn" @click="closeModal">✖</button>
+          <!-- ปุ่มปิด modal ที่มุมขวา -->
         </header>
+
         <div class="modal-content">
+          <!-- เนื้อหาภายใน modal -->
+
           <!-- 2.2 เวลา -->
           <p class="section">
             {{ new Date(modal.date_utc).toString() }}
           </p>
+          <!-- แสดงวัน-เวลาในการปล่อย โดยแปลงจาก modal.date_utc เป็น Date แล้วแสดงเป็น string -->
 
           <!-- 2.3 หัวข้อนักบิน -->
           <h3 class="section-title">Crews</h3>
+          <!-- หัวข้อ "Crews" -->
+
           <!-- 2.4 รูปและชื่อของนักบิน -->
           <div class="crew-list">
+            <!-- กล่องเก็บ list ของ crew -->
             <div v-for="cid in modal.crew" :key="cid" class="crew-item">
+              <!-- วน loop รายชื่อนักบิน (crew) ตาม id ที่อยู่ใน modal.crew -->
               <img
                 v-if="crew[cid]?.image"
                 :src="crew[cid].image"
                 :alt="crew[cid]?.name"
               />
+              <!-- แสดงรูปนักบิน ถ้ามี image -->
               <span>{{ crew[cid]?.name }}</span>
+              <!-- แสดงชื่อนักบิน -->
             </div>
             <span v-if="!modal.crew?.length">—</span>
+            <!-- ถ้าไม่มี crew เลย (ความยาว array = 0) จะแสดงขีด "—" -->
           </div>
 
           <!-- 2.5 หัวข้อจรวด -->
           <h3 class="section-title">Rockets</h3>
+          <!-- หัวข้อ "Rockets" -->
+
           <!-- 2.6 ชื่อจรวด -->
           <p class="section">{{ rockets[modal.rocket]?.name || "—" }}</p>
+          <!-- แสดงชื่อจรวด โดยใช้ rockets[modal.rocket].name ถ้าไม่มีจะแสดง "—" -->
+
           <!-- 2.7 รูปจรวด -->
           <div
             v-if="rockets[modal.rocket]?.flickr_images?.length"
             class="rocket-image"
           >
+            <!-- ถ้ามีรูปจรวดใน flickr_images -->
             <img
               :src="rockets[modal.rocket].flickr_images[0]"
               alt="Rocket Image"
             />
+            <!-- แสดงรูปแรกของจรวด -->
           </div>
 
           <!-- 2.8 หัวข้อพื้นที่ปล่อย -->
           <h3 class="section-title">Launchpad</h3>
+          <!-- หัวข้อ "Launchpad" -->
+
           <!-- 2.9 สถานที่ปล่อย -->
           <p class="section">{{ pads[modal.launchpad]?.full_name || "—" }}</p>
+          <!-- แสดงชื่อเต็มของ launchpad ถ้าไม่มีจะแสดง "—" -->
 
           <!-- 2.10 หัวข้อรายละเอียด -->
           <h3 class="section-title">Details</h3>
+          <!-- หัวข้อ "Details" -->
+
           <!-- 2.11 รายละเอียด -->
           <p class="section">{{ modal.details || "—" }}</p>
+          <!-- แสดงรายละเอียดการปล่อย ถ้าไม่มีข้อมูลจะใช้ "—" -->
         </div>
       </div>
     </div>
@@ -194,89 +228,160 @@ const show = ref(false); // ตัวแปร reactive สำหรับคว
 const modal = ref(null); // ตัวแปร reactive สำหรับเก็บข้อมูล launch ที่ถูกเลือกมาแสดงใน modal
 
 const tabLabel = {
-  all: "All",
-  upcoming: "upcoming",
-  past: "Launched",
+  all: "All", // กำหนด key = all ให้แสดงข้อความ "All"
+  upcoming: "upcoming", // กำหนด key = upcoming ให้แสดงข้อความ "upcoming"
+  past: "Launched", // กำหนด key = past ให้แสดงข้อความ "Launched"
 };
 
 const formatDate = (iso) =>
-  new Date(iso).toLocaleString(undefined, {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
+  new Date(iso).toLocaleString(
+    undefined, //แปลงข้อความ iso ให้เป็น object วันที่ของ JavaScript
+    // แปลงวันที่ให้เป็น string ตามรูปแบบท้องถิ่นของ browser ผู้ใช้ (undefined หมายถึงใช้ locale เริ่มต้นของระบบ)
+    {
+      dateStyle: "medium", //กำหนดรูปแบบการแสดงผล วันที่แบบย่อ และเวลาแบบสั้น เช่น "Aug 22, 2025, 9:00 PM"
+      timeStyle: "short",
+      //ฟังก์ชันนี้ทำหน้าที่ แปลงวันที่ ISO → วันที่อ่านง่ายสำหรับผู้ใช้
+    }
+  );
 
 const badge = (status, upcoming) => {
   if (upcoming) return `<span class='badge warn'>upcoming</span>`;
+  // ถ้า upcoming เป็น true → คืนค่า <span> ที่มี class 'badge warn' และข้อความ "upcoming"
   if (status === true) return `<span class='badge ok'>launches</span>`;
+  // ถ้า status เป็น true (ภารกิจสำเร็จ) → คืนค่า <span> ที่มี class 'badge ok' และข้อความ "launches"
   if (status === false) return `<span class='badge bad'>ล้มเหลว</span>`;
+  // ถ้า status เป็น false (ภารกิจล้มเหลว) → คืนค่า <span> ที่มี class 'badge bad' และข้อความ "ล้มเหลว"
   return `<span class='badge'>ไม่ทราบ</span>`;
+  // ถ้าไม่เข้าเงื่อนไขใดเลย → คืนค่า <span> ที่มี class 'badge' และข้อความ "ไม่ทราบ"
 };
 
 const pickImage = (links) => {
   if (!links) return "";
+  // ถ้าไม่มีค่า links (เป็น null หรือ undefined) → คืนค่าว่าง ""
   if (links.patch?.small) return links.patch.small;
+  // ถ้าใน links มีค่า patch.small → คืน URL ของ patch ขนาดเล็ก (โลโก้/สัญลักษณ์)
   if (links.flickr?.original?.length) return links.flickr.original[0];
+  // ถ้าใน links มี flickr.original ที่เป็น array และมีรูป → คืนรูปแรกจาก array
   return "";
+  // ถ้าไม่เข้าเงื่อนไขใดเลย → คืนค่าว่าง ""
 };
 
 const filtered = computed(() => {
-  let list = launches.value.filter((l) => {
-    if (scope.value === "upcoming" && !l.upcoming) return false;
-    if (scope.value === "past" && l.upcoming) return false;
-    if (q.value && !l.name.toLowerCase().includes(q.value.toLowerCase()))
-      return false;
-    return true;
-  });
+  //ประกาศตัวแปร filtered เป็น computed property (ค่าที่จะคำนวณใหม่อัตโนมัติเมื่อ dependency เปลี่ยน เช่น launches.value, q.value, scope.value ฯลฯ)
+  let list = launches.value.filter(
+    (
+      l //กำหนดตัวแปร list โดยใช้ .filter() เพื่อกรองข้อมูลจาก launches.value (ข้อมูลการปล่อยยานทั้งหมด)
+    ) => {
+      if (scope.value === "upcoming" && !l.upcoming) return false;
+      // ถ้าเลือกดู scope = "upcoming" แต่ launch นี้ไม่ใช่ upcoming → ตัดออก
+      if (scope.value === "past" && l.upcoming) return false;
+      // ถ้าเลือกดู scope = "past" แต่ launch นี้ยัง upcoming อยู่ → ตัดออก
+      if (q.value && !l.name.toLowerCase().includes(q.value.toLowerCase()))
+        return false; // ถ้ามีการค้นหา (q.value ไม่ว่าง) และชื่อ launch ไม่ตรงกับคำค้นหา → ตัดออก
+      return true; // ถ้าไม่เข้าเงื่อนไขตัดออก → เก็บ launch นี้ไว้ใน list
+    }
+  );
   list.sort((a, b) => {
+    //นำ list ที่ผ่านการกรองแล้วมาจัดเรียง (sort)
     if (sortBy.value === "name") {
+      //ถ้าต้องการเรียงตามชื่อ → เช็คค่าที่ผู้ใช้เลือก
       return order.value === "asc"
         ? a.name.localeCompare(b.name)
         : b.name.localeCompare(a.name);
+      // ถ้า order = "asc" → เรียงชื่อ A → Z
+      // ถ้า order = "desc" → เรียงชื่อ Z → A
     } else {
       const da = new Date(a.date_utc).getTime();
       const db = new Date(b.date_utc).getTime();
       return order.value === "asc" ? da - db : db - da;
+      // ถ้าไม่ได้เรียงตามชื่อ → จะเรียงตามวันเวลา (date_utc)
+      // new Date(...).getTime() แปลงวันที่เป็นตัวเลข timestamp (ms) เพื่อใช้เปรียบเทียบ
     }
   });
   return list;
+  // หลังจากกรองและเรียงเรียบร้อยแล้ว → คืนค่า list ที่ผ่านการจัดการแล้ว
+  // เนื่องจาก filtered เป็น computed → ค่านี้จะอัปเดตอัตโนมัติทุกครั้งที่ launches.value, q.value, scope.value, sortBy.value, หรือ order.value เปลี่ยน
 });
 
 const fetchByIds = async (endpoint, ids) => {
+  // ประกาศฟังก์ชันแบบ async ชื่อ fetchByIds
+  // รับพารามิเตอร์ 2 ตัว:
+  //   endpoint = ชื่อ resource เช่น "crew", "rockets"
+  //   ids = เซตของ id ที่ต้องการดึงข้อมูล
   if (!ids.size) return {};
+  // ถ้า ids ไม่มีข้อมูล (size = 0) → คืนค่า object ว่าง {} ทันที
+  // ป้องกันการยิง API โดยไม่จำเป็น
   const body = {
     query: { _id: { $in: Array.from(ids) } },
     options: { pagination: false },
+    // สร้าง body สำหรับ request
+    // query: กรองข้อมูลโดยใช้ _id ที่อยู่ใน ids (แปลง Set → Array ด้วย Array.from)
+    // options: ปิดการแบ่งหน้า (pagination) → ดึงข้อมูลทั้งหมดที่ตรงเงื่อนไข
   };
   const res = await fetch(`${API}/${endpoint}/query`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
+    // เรียก API โดยใช้ fetch
+    // URL = `${API}/${endpoint}/query` เช่น "https://api.spacexdata.com/v4/crew/query"
+    // ใช้ POST ส่ง body ที่เตรียมไว้
+    // headers: ระบุว่าเป็น JSON
   });
   const json = await res.json();
+  // แปลงผลลัพธ์จาก response (res) ให้เป็น object JSON
   const map = {};
+  // ประกาศ object ว่างไว้เก็บข้อมูลในรูปแบบ key-value (id → document)
   (json.docs || []).forEach((d) => (map[d.id] = d));
+  // วนลูปใน json.docs (หรือถ้าไม่มี docs → ใช้ array ว่าง [])
+  // map[d.id] = d → เก็บ document แต่ละตัว โดยใช้ id เป็น key
+  // เช่น { "abc123": {id: "abc123", name: "..."} }
   return map;
+  // คืนค่า object ที่เก็บข้อมูลเป็นรูปแบบ key-value
 };
 
 const bootstrap = async () => {
+  // ประกาศฟังก์ชัน async ชื่อ bootstrap (เอาไว้โหลดข้อมูลครั้งแรก)
   const res = await fetch(`${API}/launches`);
+  // เรียก API ที่ endpoint /launches (เช่น "https://api.spacexdata.com/v4/launches")
+  // ได้ค่า response กลับมาเก็บใน res
   const data = await res.json();
+  // แปลง response (res) ให้อยู่ในรูปแบบ JSON แล้วเก็บในตัวแปร data
+  // data ตอนนี้คือ array ของ launch objects
   launches.value = data;
+  // เก็บข้อมูล launches ที่ได้มาไว้ใน state (reactive) ชื่อ launches
+  // .value → เพราะ launches ถูกสร้างจาก ref() ของ Vue
 
   const rocketIds = new Set();
   const padIds = new Set();
   const crewIds = new Set();
+  // สร้าง Set ว่างไว้ 3 ตัว สำหรับเก็บ id ที่ไม่ซ้ำ:
+  // rocketIds = เก็บรหัส rocket
+  // padIds = เก็บรหัส launchpad
+  // crewIds = เก็บรหัส crew
   data.forEach((l) => {
     if (l.rocket) rocketIds.add(l.rocket);
     if (l.launchpad) padIds.add(l.launchpad);
     if (Array.isArray(l.crew)) l.crew.forEach((id) => crewIds.add(id));
+    // วนลูปข้อมูลแต่ละ launch (l)
+    // - ถ้ามี rocket → เก็บ id ของ rocket ลงใน rocketIds
+    // - ถ้ามี launchpad → เก็บ id ของ launchpad ลงใน padIds
+    // - ถ้ามี crew (เป็น array) → วนลูปเก็บแต่ละ id ลงใน crewIds
+    // ใช้ Set เพื่อป้องกัน id ซ้ำกัน
   });
 
   rockets.value = await fetchByIds("rockets", rocketIds);
+  // ใช้ฟังก์ชัน fetchByIds ไปดึงข้อมูล rocket ตาม id ที่อยู่ใน rocketIds
+  // แล้วเก็บเป็น map (id → rocket object) ไว้ใน state rockets
   pads.value = await fetchByIds("launchpads", padIds);
+  // ดึงข้อมูล launchpad ตาม id ที่อยู่ใน padIds
+  // แล้วเก็บใน state pads
   crew.value = await fetchByIds("crew", crewIds);
+  // ดึงข้อมูล crew ตาม id ที่อยู่ใน crewIds
+  // แล้วเก็บใน state crew
 
   loading.value = false;
+  // เมื่อโหลดข้อมูลทั้งหมดเสร็จ → เปลี่ยน state loading เป็น false
+  // เพื่อบอก UI ว่าโหลดข้อมูลเรียบร้อยแล้ว
 };
 
 onMounted(bootstrap);
