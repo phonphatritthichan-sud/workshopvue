@@ -56,12 +56,10 @@ import { ref, computed, onMounted } from "vue";
 import moment from "moment";
 import { useHead } from "#imports";
 
-import TabFilter from "./TabFilter.vue";
-import SearchSort from "./SearchSort.vue";
-import LaunchList from "./LaunchList.vue";
-import CrewModal from "./CrewModal.vue";
-
-import "../src/index.css";
+import TabFilter from "~/components/TabFilter.vue";
+import SearchSort from "~/components/SearchSort.vue";
+import LaunchList from "~/components/LaunchList.vue";
+import CrewModal from "~/components/CrewModal.vue";
 
 const API = "https://api.spacexdata.com/v4";
 

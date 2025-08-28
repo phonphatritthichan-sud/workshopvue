@@ -1,6 +1,6 @@
 <template>
   <div class="flex gap-4 justify-center">
-    <button class="bg-purple-800 text-brand px-4 py-2 rounded">
+    <button class="bg-purple-800 text-primary px-4 py-2 rounded">
       Test Button
     </button>
     <button
