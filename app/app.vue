@@ -1,27 +1,35 @@
 <template>
-  <div class="app">
-    <header>
-      <h1>🚀 SpaceX Launches</h1>
-      <!-- เรียกใช้ component ส่วนแท็บ -->
-      <TabFilter
-        :scopeFilter="scopeFilter"
-        @update:scopeFilter="scopeFilter = $event"
-      />
-      <!-- เรียกใช้ component ส่วนค้นหาและการ sort -->
-      <SearchSort
-        :searchQuery="searchQuery"
-        :sortKey="sortKey"
-        :sortOrder="sortOrder"
-        @update:searchQuery="searchQuery = $event"
-        @update:sortKey="sortKey = $event"
-        @update:sortOrder="sortOrder = $event"
-      />
+  <div class="min-h-screen font-sans text-[#000000] bg-gray-100">
+    <header class="flex flex-col p-4 bg-[#e9e9e9] sticky top-0 space-y-2">
+      <!-- บรรทัด 1: Title -->
+      <div class="flex justify-center">
+        <h1 class="text-xl font-bold">🚀 SpaceX Launches</h1>
+      </div>
+
+      <!-- บรรทัด 2: Tabs -->
+      <div class="flex justify-center">
+        <TabFilter
+          :scopeFilter="scopeFilter"
+          @update:scopeFilter="scopeFilter = $event"
+        />
+      </div>
+
+      <!-- บรรทัด 3: Search + Sort -->
+      <div class="flex justify-center space-x-2">
+        <SearchSort
+          :searchQuery="searchQuery"
+          :sortKey="sortKey"
+          :sortOrder="sortOrder"
+          @update:searchQuery="searchQuery = $event"
+          @update:sortKey="sortKey = $event"
+          @update:sortOrder="sortOrder = $event"
+        />
+      </div>
     </header>
 
     <main>
-      <div v-if="loading">กำลังโหลดข้อมูล…</div>
+      <div v-if="loading" class="py-4 text-center">กำลังโหลดข้อมูล…</div>
 
-      <!-- เรียกใช้ component แสดงรายการ -->
       <LaunchList
         :filtered="filtered"
         :pickImage="pickImage"
@@ -31,7 +39,6 @@
       />
     </main>
 
-    <!-- เรียกใช้ component Modal -->
     <CrewModal
       v-if="isModalVisible"
       :modal="modal"
@@ -54,7 +61,7 @@ import SearchSort from "./SearchSort.vue";
 import LaunchList from "./LaunchList.vue";
 import CrewModal from "./CrewModal.vue";
 
-import "./style.css";
+import "../src/index.css";
 
 const API = "https://api.spacexdata.com/v4";
 
@@ -74,19 +81,21 @@ const modal = ref(null);
 
 const tabLabel = {
   all: "All",
-  upcoming: "upcoming",
+  upcoming: "Upcoming",
   past: "Launched",
 };
 
-const formatDate = (dateStr) => {
-  return moment(dateStr).format("dddd, MMMM Do YYYY, h:mm:ss a");
-};
+const formatDate = (dateStr) =>
+  moment(dateStr).format("dddd, MMMM Do YYYY, h:mm:ss a");
 
 const badge = (status, upcoming) => {
-  if (upcoming) return `<span class='badge warn'>upcoming</span>`;
-  if (status === true) return `<span class='badge ok'>launches</span>`;
-  if (status === false) return `<span class='badge bad'>ล้มเหลว</span>`;
-  return `<span class='badge'>ไม่ทราบ</span>`;
+  if (upcoming)
+    return `<span class='px-2 py-0.5 rounded bg-yellow-100 text-yellow-600'>upcoming</span>`;
+  if (status === true)
+    return `<span class='px-2 py-0.5 rounded bg-green-100 text-green-600'>launches</span>`;
+  if (status === false)
+    return `<span class='px-2 py-0.5 rounded bg-red-100 text-red-600'>ล้มเหลว</span>`;
+  return `<span class='px-2 py-0.5 rounded bg-gray-200 text-gray-600'>ไม่ทราบ</span>`;
 };
 
 const pickImage = (links) => {
@@ -171,7 +180,5 @@ const closeModal = () => {
   modal.value = null;
 };
 
-useHead({
-  title: "SpaceX Launches",
-});
+useHead({ title: "SpaceX Launches" });
 </script>
