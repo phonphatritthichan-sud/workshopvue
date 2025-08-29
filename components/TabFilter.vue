@@ -1,13 +1,18 @@
 <template>
-  <div class="flex gap-4 justify-center">
-    <button class="bg-purple-800 text-primary px-4 py-2 rounded">
-      Test Button
-    </button>
+  <div class="flex mb-4 rounded-md shadow-sm w-full max-w-md mx-auto">
     <button
-      v-for="scope in ['all', 'upcoming', 'past']"
+      v-for="(scope, index) in ['all', 'upcoming', 'past']"
       :key="scope"
+      :class="[
+        'flex-1 px-6 py-2 border font-bold transition cursor-pointer text-center',
+        scopeFilter === scope
+          ? 'bg-brand text-white'
+          : 'bg-white text-brand hover:bg-blue-100',
+        index === 0 ? 'rounded-l-md' : '',
+        index === 2 ? 'rounded-r-md' : '',
+        index !== 0 ? '-ml-px' : '',
+      ]"
       @click="$emit('update:scopeFilter', scope)"
-      class="px-4 py-2 rounded-md font-bold border border-[#4d36ca] bg-[#4d36ca] text-white cursor-pointer hover:opacity-80 transition-colors duration-200"
     >
       {{ tabLabel[scope] }}
     </button>
@@ -15,15 +20,7 @@
 </template>
 
 <script setup>
-defineProps({
-  scopeFilter: String,
-});
-
+defineProps({ scopeFilter: String });
 defineEmits(["update:scopeFilter"]);
-
-const tabLabel = {
-  all: "All",
-  upcoming: "Upcoming",
-  past: "Launched",
-};
+const tabLabel = { all: "All", upcoming: "Upcoming", past: "Launched" };
 </script>

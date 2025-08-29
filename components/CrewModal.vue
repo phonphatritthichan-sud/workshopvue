@@ -20,24 +20,25 @@
         {{ formatDate(modal.date_utc) }}
       </p>
 
+      <!-- Crews -->
       <h3
         class="inline-block px-3 py-1 rounded-full bg-brand text-white text-base my-2"
       >
         Crews
       </h3>
-      <div class="flex flex-wrap gap-[50px] mt-2 justify-center text-black">
+      <div class="flex flex-wrap gap-6 mt-2 justify-center text-black">
         <div
           v-for="crewId in modal.crew"
           :key="crewId"
-          class="flex flex-col items-center gap-1"
+          class="flex flex-col items-center gap-2 w-20"
         >
           <img
             v-if="crew[crewId]?.image"
             :src="crew[crewId].image"
             :alt="crew[crewId]?.name"
-            class="w-15 h-15 object-cover rounded-full border-2 border-gray-700"
+            class="w-16 h-16 object-cover rounded-full border-2 border-gray-700"
           />
-          <span>{{ crew[crewId]?.name }}</span>
+          <span class="text-sm text-center">{{ crew[crewId]?.name }}</span>
         </div>
         <span v-if="!modal.crew?.length">—</span>
       </div>
