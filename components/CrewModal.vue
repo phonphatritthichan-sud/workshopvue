@@ -27,11 +27,14 @@
         Crews
       </h3>
       <div class="flex flex-wrap gap-6 mt-2 justify-center text-black">
+        <!-- modal.crew เป็น array ควรตั้ง modal.crews  -->
         <div
           v-for="crewId in modal.crew"
           :key="crewId"
           class="flex flex-col items-center gap-2 w-20"
         >
+          <!-- ในการ ดึงค่าจาก loop เราจะไม่ใช้ crew[crewId].image  เราจะใช้ crewId.image 
+          ตัวเเปรตัวเเรกใน มันคือค่า object ใน loop รอบนั้นอยู่เเล้ว -->
           <img
             v-if="crew[crewId]?.image"
             :src="crew[crewId].image"
@@ -51,6 +54,11 @@
       <p class="my-1 text-base text-gray-700">
         {{ rockets[modal.rocket]?.name || "—" }}
       </p>
+      <!-- เวลาตัวแปรยาว หรือ อ่านเเล้วไม่ค่อยเข้าใจให้ไปตั้งเป็น computed
+      เช่น v-if="rockets[modal.rocket]?.flickr_images?.length  อ่านเเล้วตั้งไปไล่เช็คอีกว่ามันเอาไว้ทำไร
+      ใช้สร้าง computed
+      เช่น shouldShowRocketImage  return Boolean(rockets[modal.rocket]?.flickr_images?.length)
+      -->
       <div v-if="rockets[modal.rocket]?.flickr_images?.length" class="my-2">
         <img
           :src="rockets[modal.rocket].flickr_images[0]"

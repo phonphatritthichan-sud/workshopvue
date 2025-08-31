@@ -1,12 +1,10 @@
 <template>
   <div class="min-h-screen font-sans text-[#000000] bg-gray-100">
     <header class="flex flex-col p-4 bg-[#e9e9e9] sticky top-0 space-y-2">
-      <!-- บรรทัด 1: Title -->
       <div class="flex justify-center">
         <h1 class="text-xl font-bold">🚀 SpaceX Launches</h1>
       </div>
 
-      <!-- บรรทัด 2: Tabs -->
       <div class="flex justify-center">
         <TabFilter
           :scopeFilter="scopeFilter"
@@ -14,7 +12,6 @@
         />
       </div>
 
-      <!-- บรรทัด 3: Search + Sort -->
       <div class="flex justify-center space-x-2">
         <SearchSort
           :searchQuery="searchQuery"
@@ -37,6 +34,9 @@
         :badge="badge"
         @openModal="openModal"
       />
+      <!-- pickImage โยนไป component อื่นเเค่ file เดียวทำไมต้องโยน function ไปจากหน้านี้ 
+      การที่เราจะโยน function ไปยัง component อื่นควรมีมากกว่า 1 ที่เรียกใช้ ให้เอา function ไปไว้ใน component นั้นเลย
+      -->
     </main>
 
     <CrewModal
@@ -82,11 +82,13 @@ const tabLabel = {
   upcoming: "Upcoming",
   past: "Launched",
 };
+// tabLabel ไม่มีใช้ลบ (code ไหนไม่ใช้ลบ)
 
 const formatDate = (dateStr) =>
   moment(dateStr).format("dddd, MMMM Do YYYY, h:mm:ss a");
 
 const badge = (status, upcoming) => {
+  // px-2 py-0.5 rounded  code ซ้ำ ปรับให้ไม่ซ้ำ
   if (upcoming)
     return `<span class='px-2 py-0.5 rounded bg-yellow-100 text-yellow-600'>upcoming</span>`;
   if (status === true)
@@ -105,6 +107,9 @@ const pickImage = (links) => {
 
 const filtered = computed(() => {
   let list = launches.value.filter((l) => {
+    // ตัวแปร a-z ไม่ควรตั้ง [เช็ค codeบรรทัดอื่นด้วย]
+    // ตัวแปรที่เป็น array ควรตั้งเป็น พหูพนจ์ ที่เหลือเป็น เอกพจน์ let list เก็บค่าเป็น array ก็ควรเป็น lists
+    // launches.value.filter((launch) => {
     if (scopeFilter.value === "upcoming" && !l.upcoming) return false;
     if (scopeFilter.value === "past" && l.upcoming) return false;
     if (
@@ -139,10 +144,20 @@ const fetchByIds = async (endpoint, ids) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
+
   const json = await res.json();
+  // เวลารับค่าจาก API เช็ค undefined ด้วยทุกรับเพราะ มีโอกาสที่จะไม่ส่งค่ากลับมาหรือ server ล่ม
+  // สามารถใช้ try catch , async await , then
+  //  const json = await res?.json();
+
   const map = {};
   (json.docs || []).forEach((d) => (map[d.id] = d));
+  // const docs = json?.docs || [];
+  // return Object.fromEntries(docs.map((doc) => [doc.id, doc]));
+  // เเบบนี้จะเข้าใจได้ง่ายกว่า
+
   return map;
+  // ถ้ามี return ค่าในfunction ตัวเดียว ก็ return ไปเลยครับไม่ต้อง return map; เพราะสุดท้ายเเล้วเราอ่านชื่อfunctionเเล้ว
 };
 
 const bootstrap = async () => {
@@ -179,4 +194,5 @@ const closeModal = () => {
 };
 
 useHead({ title: "SpaceX Launches" });
+// why we need this? useHead({ title: "SpaceX Launches" });
 </script>

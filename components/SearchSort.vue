@@ -7,6 +7,8 @@
       @input="$emit('update:searchQuery', $event.target.value)"
       class="px-2 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brand"
     />
+    <!-- @input="$emit('update:searchQuery', $event.target.value)" 
+    สร้าง function เเล้วค่อยให้มันทำอะไร -->
     <select
       :value="sortKey"
       @change="$emit('update:sortKey', $event.target.value)"

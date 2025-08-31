@@ -5,6 +5,8 @@
     class="flex items-center w-[70%] mx-auto mb-3 bg-white rounded-lg p-3 shadow-md cursor-pointer transition-transform hover:scale-[1.01]"
     @click="$emit('openModal', launch)"
   >
+    <!-- @click="$emit('openModal', launch)" ไปสร้างเป็น function เเล้วค่อย return เช่น
+    @click="handleOpenModal(launch)" เพราะในอนาคต ถ้าเราต้องแก้อะไร ไม่ต้องไปสร้างใหม่ เเละจะทำให้ code อ่านง่ายขึ้น -->
     <div
       class="flex items-center justify-center w-10 h-10 mr-4 bg-gray-100 rounded-md overflow-hidden"
     >
