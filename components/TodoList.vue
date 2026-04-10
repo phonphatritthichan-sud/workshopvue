@@ -85,22 +85,26 @@
                 </span>
                 <svg
                   class="w-5 h-5 text-gray-400 transform transition-transform"
-                  :class="{ 'rotate-180': expandedSections.includes(section.id) }"
+                  :class="{
+                    'rotate-180': expandedSections.includes(section.id),
+                  }"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
                 </svg>
               </div>
             </div>
           </div>
 
           <!-- Section Content -->
-          <div
-            v-show="expandedSections.includes(section.id)"
-            class="px-6 py-4"
-          >
+          <div v-show="expandedSections.includes(section.id)" class="px-6 py-4">
             <div class="space-y-3">
               <div
                 v-for="task in section.tasks"
@@ -141,7 +145,9 @@
                       <label
                         :for="subtask.id"
                         class="text-xs text-gray-600 cursor-pointer"
-                        :class="{ 'line-through text-gray-400': subtask.completed }"
+                        :class="{
+                          'line-through text-gray-400': subtask.completed,
+                        }"
                       >
                         {{ subtask.title }}
                       </label>
@@ -156,7 +162,9 @@
 
       <!-- Success Criteria -->
       <div class="bg-white rounded-lg shadow-sm p-6 mt-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">🎯 Success Criteria</h3>
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">
+          🎯 Success Criteria
+        </h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="flex items-center space-x-2">
             <input
@@ -166,7 +174,10 @@
               @change="successCriteria.requirements = $event.target.checked"
               class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
             />
-            <label for="requirements-met" class="text-sm text-gray-700 cursor-pointer">
+            <label
+              for="requirements-met"
+              class="text-sm text-gray-700 cursor-pointer"
+            >
               Requirements Met
             </label>
           </div>
@@ -178,7 +189,10 @@
               @change="successCriteria.quality = $event.target.checked"
               class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
             />
-            <label for="quality-assurance" class="text-sm text-gray-700 cursor-pointer">
+            <label
+              for="quality-assurance"
+              class="text-sm text-gray-700 cursor-pointer"
+            >
               Quality Assurance
             </label>
           </div>
@@ -190,7 +204,10 @@
               @change="successCriteria.review = $event.target.checked"
               class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
             />
-            <label for="ready-for-review" class="text-sm text-gray-700 cursor-pointer">
+            <label
+              for="ready-for-review"
+              class="text-sm text-gray-700 cursor-pointer"
+            >
               Ready for Review
             </label>
           </div>
@@ -201,405 +218,707 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from "vue";
 
 // Reactive data
-const expandedSections = ref(['requirements'])
+const expandedSections = ref(["requirements"]);
 const successCriteria = ref({
   requirements: false,
   quality: false,
-  review: false
-})
+  review: false,
+});
 
 // Todo sections data
 const sections = ref([
   {
-    id: 'requirements',
-    title: 'Phase 1: Requirements Analysis',
-    description: '9:00 AM - 10:00 AM',
-    icon: '🏁',
+    id: "requirements",
+    title: "Phase 1: Requirements Analysis",
+    description: "9:00 AM - 10:00 AM",
+    icon: "🏁",
     tasks: [
       {
-        id: 'analyze-requirements',
-        title: 'Analyze Requirements',
+        id: "analyze-requirements",
+        title: "Analyze Requirements",
         completed: false,
         subtasks: [
-          { id: 'parse-breakdown', title: 'Parse and break down requirements into atomic items', completed: false },
-          { id: 'identify-implicit', title: 'Identify implicit requirements and dependencies', completed: false },
-          { id: 'highlight-ambiguities', title: 'Highlight ambiguities and incomplete specifications', completed: false },
-          { id: 'flag-conflicts', title: 'Flag conflicting requirements', completed: false }
-        ]
+          {
+            id: "parse-breakdown",
+            title: "Parse and break down requirements into atomic items",
+            completed: false,
+          },
+          {
+            id: "identify-implicit",
+            title: "Identify implicit requirements and dependencies",
+            completed: false,
+          },
+          {
+            id: "highlight-ambiguities",
+            title: "Highlight ambiguities and incomplete specifications",
+            completed: false,
+          },
+          {
+            id: "flag-conflicts",
+            title: "Flag conflicting requirements",
+            completed: false,
+          },
+        ],
       },
       {
-        id: 'technical-assessment',
-        title: 'Technical Assessment',
+        id: "technical-assessment",
+        title: "Technical Assessment",
         completed: false,
         subtasks: [
-          { id: 'evaluate-feasibility', title: 'Evaluate feasibility in Nuxt/Vue 3 ecosystem', completed: false },
-          { id: 'propose-approaches', title: 'Propose implementation approaches', completed: false },
-          { id: 'identify-risks', title: 'Identify potential risks and edge cases', completed: false },
-          { id: 'suggest-alternatives', title: 'Suggest alternative solutions', completed: false }
-        ]
+          {
+            id: "evaluate-feasibility",
+            title: "Evaluate feasibility in Nuxt/Vue 3 ecosystem",
+            completed: false,
+          },
+          {
+            id: "propose-approaches",
+            title: "Propose implementation approaches",
+            completed: false,
+          },
+          {
+            id: "identify-risks",
+            title: "Identify potential risks and edge cases",
+            completed: false,
+          },
+          {
+            id: "suggest-alternatives",
+            title: "Suggest alternative solutions",
+            completed: false,
+          },
+        ],
       },
       {
-        id: 'validation-documentation',
-        title: 'Validation & Documentation',
+        id: "validation-documentation",
+        title: "Validation & Documentation",
         completed: false,
         subtasks: [
-          { id: 'ask-questions', title: 'Ask clarifying questions for ambiguities', completed: false },
-          { id: 'create-criteria', title: 'Create acceptance criteria', completed: false },
-          { id: 'generate-checklist', title: 'Generate implementation checklist', completed: false },
-          { id: 'document-rationale', title: 'Document decision rationale', completed: false }
-        ]
-      }
-    ]
+          {
+            id: "ask-questions",
+            title: "Ask clarifying questions for ambiguities",
+            completed: false,
+          },
+          {
+            id: "create-criteria",
+            title: "Create acceptance criteria",
+            completed: false,
+          },
+          {
+            id: "generate-checklist",
+            title: "Generate implementation checklist",
+            completed: false,
+          },
+          {
+            id: "document-rationale",
+            title: "Document decision rationale",
+            completed: false,
+          },
+        ],
+      },
+    ],
   },
   {
-    id: 'implementation',
-    title: 'Phase 2: Feature Implementation',
-    description: '10:00 AM - 2:00 PM',
-    icon: '💻',
+    id: "implementation",
+    title: "Phase 2: Feature Implementation",
+    description: "10:00 AM - 2:00 PM",
+    icon: "💻",
     tasks: [
       {
-        id: 'architecture-design',
-        title: 'Architecture Design',
+        id: "architecture-design",
+        title: "Architecture Design",
         completed: false,
         subtasks: [
-          { id: 'design-structure', title: 'Design component structure and data flow', completed: false },
-          { id: 'plan-integration', title: 'Plan API integration points', completed: false },
-          { id: 'consider-performance', title: 'Consider performance implications', completed: false },
-          { id: 'define-state', title: 'Define state management approach', completed: false }
-        ]
+          {
+            id: "design-structure",
+            title: "Design component structure and data flow",
+            completed: false,
+          },
+          {
+            id: "plan-integration",
+            title: "Plan API integration points",
+            completed: false,
+          },
+          {
+            id: "consider-performance",
+            title: "Consider performance implications",
+            completed: false,
+          },
+          {
+            id: "define-state",
+            title: "Define state management approach",
+            completed: false,
+          },
+        ],
       },
       {
-        id: 'core-implementation',
-        title: 'Core Implementation',
+        id: "core-implementation",
+        title: "Core Implementation",
         completed: false,
         subtasks: [
-          { id: 'create-components', title: 'Create Vue 3 components with Composition API', completed: false },
-          { id: 'implement-logic', title: 'Implement business logic and data handling', completed: false },
-          { id: 'add-error-handling', title: 'Add proper error handling', completed: false },
-          { id: 'integrate-codebase', title: 'Integrate with existing codebase', completed: false }
-        ]
+          {
+            id: "create-components",
+            title: "Create Vue 3 components with Composition API",
+            completed: false,
+          },
+          {
+            id: "implement-logic",
+            title: "Implement business logic and data handling",
+            completed: false,
+          },
+          {
+            id: "add-error-handling",
+            title: "Add proper error handling",
+            completed: false,
+          },
+          {
+            id: "integrate-codebase",
+            title: "Integrate with existing codebase",
+            completed: false,
+          },
+        ],
       },
       {
-        id: 'ui-development',
-        title: 'UI/UX Development',
+        id: "ui-development",
+        title: "UI/UX Development",
         completed: false,
         subtasks: [
-          { id: 'responsive-design', title: 'Implement responsive design with Tailwind CSS', completed: false },
-          { id: 'accessibility', title: 'Add proper accessibility features', completed: false },
-          { id: 'loading-states', title: 'Handle loading states and user feedback', completed: false },
-          { id: 'cross-browser', title: 'Test cross-browser compatibility', completed: false }
-        ]
+          {
+            id: "responsive-design",
+            title: "Implement responsive design with Tailwind CSS",
+            completed: false,
+          },
+          {
+            id: "accessibility",
+            title: "Add proper accessibility features",
+            completed: false,
+          },
+          {
+            id: "loading-states",
+            title: "Handle loading states and user feedback",
+            completed: false,
+          },
+          {
+            id: "cross-browser",
+            title: "Test cross-browser compatibility",
+            completed: false,
+          },
+        ],
       },
       {
-        id: 'code-quality',
-        title: 'Code Quality',
+        id: "code-quality",
+        title: "Code Quality",
         completed: false,
         subtasks: [
-          { id: 'follow-conventions', title: 'Follow project conventions and standards', completed: false },
-          { id: 'add-comments', title: 'Add comprehensive comments and JSDoc', completed: false },
-          { id: 'typescript-types', title: 'Ensure TypeScript types are correct', completed: false },
-          { id: 'remove-debug', title: 'Remove console logs and debug code', completed: false }
-        ]
-      }
-    ]
+          {
+            id: "follow-conventions",
+            title: "Follow project conventions and standards",
+            completed: false,
+          },
+          {
+            id: "add-comments",
+            title: "Add comprehensive comments and JSDoc",
+            completed: false,
+          },
+          {
+            id: "typescript-types",
+            title: "Ensure TypeScript types are correct",
+            completed: false,
+          },
+          {
+            id: "remove-debug",
+            title: "Remove console logs and debug code",
+            completed: false,
+          },
+        ],
+      },
+    ],
   },
   {
-    id: 'testing',
-    title: 'Phase 3: Testing & Quality Assurance',
-    description: '2:00 PM - 4:00 PM',
-    icon: '🧪',
+    id: "testing",
+    title: "Phase 3: Testing & Quality Assurance",
+    description: "2:00 PM - 4:00 PM",
+    icon: "🧪",
     tasks: [
       {
-        id: 'test-planning',
-        title: 'Test Planning',
+        id: "test-planning",
+        title: "Test Planning",
         completed: false,
         subtasks: [
-          { id: 'identify-paths', title: 'Identify critical paths requiring coverage', completed: false },
-          { id: 'plan-cases', title: 'Plan test cases for normal and edge scenarios', completed: false },
-          { id: 'define-mocking', title: 'Define mocking strategies for dependencies', completed: false },
-          { id: 'set-targets', title: 'Set coverage targets', completed: false }
-        ]
+          {
+            id: "identify-paths",
+            title: "Identify critical paths requiring coverage",
+            completed: false,
+          },
+          {
+            id: "plan-cases",
+            title: "Plan test cases for normal and edge scenarios",
+            completed: false,
+          },
+          {
+            id: "define-mocking",
+            title: "Define mocking strategies for dependencies",
+            completed: false,
+          },
+          {
+            id: "set-targets",
+            title: "Set coverage targets",
+            completed: false,
+          },
+        ],
       },
       {
-        id: 'unit-test-implementation',
-        title: 'Unit Test Implementation',
+        id: "unit-test-implementation",
+        title: "Unit Test Implementation",
         completed: false,
         subtasks: [
-          { id: 'write-function-tests', title: 'Write tests for functions and composables', completed: false },
-          { id: 'test-components', title: 'Test Vue components with proper mounting', completed: false },
-          { id: 'handle-async', title: 'Handle async operations and promises', completed: false },
-          { id: 'setup-teardown', title: 'Implement proper setup/teardown', completed: false }
-        ]
+          {
+            id: "write-function-tests",
+            title: "Write tests for functions and composables",
+            completed: false,
+          },
+          {
+            id: "test-components",
+            title: "Test Vue components with proper mounting",
+            completed: false,
+          },
+          {
+            id: "handle-async",
+            title: "Handle async operations and promises",
+            completed: false,
+          },
+          {
+            id: "setup-teardown",
+            title: "Implement proper setup/teardown",
+            completed: false,
+          },
+        ],
       },
       {
-        id: 'test-quality',
-        title: 'Test Quality',
+        id: "test-quality",
+        title: "Test Quality",
         completed: false,
         subtasks: [
-          { id: 'focused-tests', title: 'Ensure tests are focused and isolated', completed: false },
-          { id: 'appropriate-assertions', title: 'Use appropriate assertions and matchers', completed: false },
-          { id: 'aaa-pattern', title: 'Follow AAA pattern (Arrange, Act, Assert)', completed: false },
-          { id: 'document-logic', title: 'Document complex test logic', completed: false }
-        ]
+          {
+            id: "focused-tests",
+            title: "Ensure tests are focused and isolated",
+            completed: false,
+          },
+          {
+            id: "appropriate-assertions",
+            title: "Use appropriate assertions and matchers",
+            completed: false,
+          },
+          {
+            id: "aaa-pattern",
+            title: "Follow AAA pattern (Arrange, Act, Assert)",
+            completed: false,
+          },
+          {
+            id: "document-logic",
+            title: "Document complex test logic",
+            completed: false,
+          },
+        ],
       },
       {
-        id: 'coverage-verification',
-        title: 'Coverage Verification',
+        id: "coverage-verification",
+        title: "Coverage Verification",
         completed: false,
         subtasks: [
-          { id: 'run-suite', title: 'Run test suite and verify all tests pass', completed: false },
-          { id: 'check-reports', title: 'Check coverage reports and identify gaps', completed: false },
-          { id: 'add-missing', title: 'Add missing test cases as needed', completed: false },
-          { id: 'optimize-performance', title: 'Optimize test performance', completed: false }
-        ]
-      }
-    ]
+          {
+            id: "run-suite",
+            title: "Run test suite and verify all tests pass",
+            completed: false,
+          },
+          {
+            id: "check-reports",
+            title: "Check coverage reports and identify gaps",
+            completed: false,
+          },
+          {
+            id: "add-missing",
+            title: "Add missing test cases as needed",
+            completed: false,
+          },
+          {
+            id: "optimize-performance",
+            title: "Optimize test performance",
+            completed: false,
+          },
+        ],
+      },
+    ],
   },
   {
-    id: 'review',
-    title: 'Phase 4: Code Review & Validation',
-    description: '4:00 PM - 5:00 PM',
-    icon: '🔍',
+    id: "review",
+    title: "Phase 4: Code Review & Validation",
+    description: "4:00 PM - 5:00 PM",
+    icon: "🔍",
     tasks: [
       {
-        id: 'code-quality-review',
-        title: 'Code Quality Review',
+        id: "code-quality-review",
+        title: "Code Quality Review",
         completed: false,
         subtasks: [
-          { id: 'evaluate-structure', title: 'Evaluate code structure and readability', completed: false },
-          { id: 'check-naming', title: 'Check naming conventions and consistency', completed: false },
-          { id: 'identify-patterns', title: 'Identify anti-patterns and improvements', completed: false },
-          { id: 'verify-api', title: 'Verify Vue 3 Composition API usage', completed: false }
-        ]
+          {
+            id: "evaluate-structure",
+            title: "Evaluate code structure and readability",
+            completed: false,
+          },
+          {
+            id: "check-naming",
+            title: "Check naming conventions and consistency",
+            completed: false,
+          },
+          {
+            id: "identify-patterns",
+            title: "Identify anti-patterns and improvements",
+            completed: false,
+          },
+          {
+            id: "verify-api",
+            title: "Verify Vue 3 Composition API usage",
+            completed: false,
+          },
+        ],
       },
       {
-        id: 'security-assessment',
-        title: 'Security Assessment',
+        id: "security-assessment",
+        title: "Security Assessment",
         completed: false,
         subtasks: [
-          { id: 'check-vulnerabilities', title: 'Check for potential vulnerabilities', completed: false },
-          { id: 'validate-sanitization', title: 'Validate input sanitization', completed: false },
-          { id: 'review-auth', title: 'Review authentication/authorization logic', completed: false },
-          { id: 'flag-patterns', title: 'Flag unsafe patterns', completed: false }
-        ]
+          {
+            id: "check-vulnerabilities",
+            title: "Check for potential vulnerabilities",
+            completed: false,
+          },
+          {
+            id: "validate-sanitization",
+            title: "Validate input sanitization",
+            completed: false,
+          },
+          {
+            id: "review-auth",
+            title: "Review authentication/authorization logic",
+            completed: false,
+          },
+          {
+            id: "flag-patterns",
+            title: "Flag unsafe patterns",
+            completed: false,
+          },
+        ],
       },
       {
-        id: 'performance-analysis',
-        title: 'Performance Analysis',
+        id: "performance-analysis",
+        title: "Performance Analysis",
         completed: false,
         subtasks: [
-          { id: 'identify-bottlenecks', title: 'Identify performance bottlenecks', completed: false },
-          { id: 'review-rendering', title: 'Review rendering optimization', completed: false },
-          { id: 'check-leaks', title: 'Check for memory leaks', completed: false },
-          { id: 'suggest-caching', title: 'Suggest caching strategies', completed: false }
-        ]
+          {
+            id: "identify-bottlenecks",
+            title: "Identify performance bottlenecks",
+            completed: false,
+          },
+          {
+            id: "review-rendering",
+            title: "Review rendering optimization",
+            completed: false,
+          },
+          {
+            id: "check-leaks",
+            title: "Check for memory leaks",
+            completed: false,
+          },
+          {
+            id: "suggest-caching",
+            title: "Suggest caching strategies",
+            completed: false,
+          },
+        ],
       },
       {
-        id: 'best-practices',
-        title: 'Best Practices Validation',
+        id: "best-practices",
+        title: "Best Practices Validation",
         completed: false,
         subtasks: [
-          { id: 'adhere-standards', title: 'Ensure adherence to project standards', completed: false },
-          { id: 'check-dependencies', title: 'Check dependency usage', completed: false },
-          { id: 'validate-handling', title: 'Validate error handling', completed: false },
-          { id: 'review-annotations', title: 'Review TypeScript annotations', completed: false }
-        ]
-      }
-    ]
+          {
+            id: "adhere-standards",
+            title: "Ensure adherence to project standards",
+            completed: false,
+          },
+          {
+            id: "check-dependencies",
+            title: "Check dependency usage",
+            completed: false,
+          },
+          {
+            id: "validate-handling",
+            title: "Validate error handling",
+            completed: false,
+          },
+          {
+            id: "review-annotations",
+            title: "Review TypeScript annotations",
+            completed: false,
+          },
+        ],
+      },
+    ],
   },
   {
-    id: 'finalization',
-    title: 'Phase 5: Documentation & Finalization',
-    description: '5:00 PM - 5:30 PM',
-    icon: '📝',
+    id: "finalization",
+    title: "Phase 5: Documentation & Finalization",
+    description: "5:00 PM - 5:30 PM",
+    icon: "📝",
     tasks: [
       {
-        id: 'code-documentation',
-        title: 'Code Documentation',
+        id: "code-documentation",
+        title: "Code Documentation",
         completed: false,
         subtasks: [
-          { id: 'update-component-docs', title: 'Update component documentation', completed: false },
-          { id: 'add-api-docs', title: 'Add API documentation if needed', completed: false },
-          { id: 'document-changes', title: 'Document breaking changes', completed: false },
-          { id: 'update-readme', title: 'Update README if required', completed: false }
-        ]
+          {
+            id: "update-component-docs",
+            title: "Update component documentation",
+            completed: false,
+          },
+          {
+            id: "add-api-docs",
+            title: "Add API documentation if needed",
+            completed: false,
+          },
+          {
+            id: "document-changes",
+            title: "Document breaking changes",
+            completed: false,
+          },
+          {
+            id: "update-readme",
+            title: "Update README if required",
+            completed: false,
+          },
+        ],
       },
       {
-        id: 'commit-preparation',
-        title: 'Commit Preparation',
+        id: "commit-preparation",
+        title: "Commit Preparation",
         completed: false,
         subtasks: [
-          { id: 'write-message', title: 'Write clear commit message', completed: false },
-          { id: 'ensure-committed', title: 'Ensure all changes are committed', completed: false },
-          { id: 'verify-build', title: 'Verify build passes', completed: false },
-          { id: 'check-linting', title: 'Check for any linting errors', completed: false }
-        ]
+          {
+            id: "write-message",
+            title: "Write clear commit message",
+            completed: false,
+          },
+          {
+            id: "ensure-committed",
+            title: "Ensure all changes are committed",
+            completed: false,
+          },
+          {
+            id: "verify-build",
+            title: "Verify build passes",
+            completed: false,
+          },
+          {
+            id: "check-linting",
+            title: "Check for any linting errors",
+            completed: false,
+          },
+        ],
       },
       {
-        id: 'final-verification',
-        title: 'Final Verification',
+        id: "final-verification",
+        title: "Final Verification",
         completed: false,
         subtasks: [
-          { id: 'run-tests', title: 'Run full test suite one more time', completed: false },
-          { id: 'verify-feature', title: 'Verify feature works as expected', completed: false },
-          { id: 'check-console', title: 'Check console for errors', completed: false },
-          { id: 'test-edge-cases', title: 'Test edge cases manually', completed: false }
-        ]
-      }
-    ]
-  }
-])
+          {
+            id: "run-tests",
+            title: "Run full test suite one more time",
+            completed: false,
+          },
+          {
+            id: "verify-feature",
+            title: "Verify feature works as expected",
+            completed: false,
+          },
+          {
+            id: "check-console",
+            title: "Check console for errors",
+            completed: false,
+          },
+          {
+            id: "test-edge-cases",
+            title: "Test edge cases manually",
+            completed: false,
+          },
+        ],
+      },
+    ],
+  },
+]);
 
 // Computed properties
 const totalTasks = computed(() => {
   return sections.value.reduce((total, section) => {
-    return total + section.tasks.reduce((sectionTotal, task) => {
-      return sectionTotal + 1 + (task.subtasks ? task.subtasks.length : 0)
-    }, 0)
-  }, 0)
-})
+    return (
+      total +
+      section.tasks.reduce((sectionTotal, task) => {
+        return sectionTotal + 1 + (task.subtasks ? task.subtasks.length : 0);
+      }, 0)
+    );
+  }, 0);
+});
 
 const completedTasks = computed(() => {
   return sections.value.reduce((total, section) => {
-    return total + section.tasks.reduce((sectionTotal, task) => {
-      let count = task.completed ? 1 : 0
-      if (task.subtasks) {
-        count += task.subtasks.filter(subtask => subtask.completed).length
-      }
-      return sectionTotal + count
-    }, 0)
-  }, 0)
-})
+    return (
+      total +
+      section.tasks.reduce((sectionTotal, task) => {
+        let count = task.completed ? 1 : 0;
+        if (task.subtasks) {
+          count += task.subtasks.filter((subtask) => subtask.completed).length;
+        }
+        return sectionTotal + count;
+      }, 0)
+    );
+  }, 0);
+});
 
 const progressPercentage = computed(() => {
-  return totalTasks.value > 0 ? Math.round((completedTasks.value / totalTasks.value) * 100) : 0
-})
+  return totalTasks.value > 0
+    ? Math.round((completedTasks.value / totalTasks.value) * 100)
+    : 0;
+});
 
 const phases = computed(() => {
-  return sections.value.map(section => {
-    const total = section.tasks.reduce((sum, task) => sum + 1 + (task.subtasks ? task.subtasks.length : 0), 0)
+  return sections.value.map((section) => {
+    const total = section.tasks.reduce(
+      (sum, task) => sum + 1 + (task.subtasks ? task.subtasks.length : 0),
+      0,
+    );
     const completed = section.tasks.reduce((sum, task) => {
-      let count = task.completed ? 1 : 0
+      let count = task.completed ? 1 : 0;
       if (task.subtasks) {
-        count += task.subtasks.filter(subtask => subtask.completed).length
+        count += task.subtasks.filter((subtask) => subtask.completed).length;
       }
-      return sum + count
-    }, 0)
+      return sum + count;
+    }, 0);
 
-    const progress = total > 0 ? Math.round((completed / total) * 100) : 0
+    const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
 
-    let status = 'Not Started'
-    let statusClass = 'bg-gray-100 text-gray-800'
-    let progressClass = 'bg-gray-400'
+    let status = "Not Started";
+    let statusClass = "bg-gray-100 text-gray-800";
+    let progressClass = "bg-gray-400";
 
     if (progress === 100) {
-      status = 'Completed'
-      statusClass = 'bg-green-100 text-green-800'
-      progressClass = 'bg-green-600'
+      status = "Completed";
+      statusClass = "bg-green-100 text-green-800";
+      progressClass = "bg-green-600";
     } else if (progress > 0) {
-      status = 'In Progress'
-      statusClass = 'bg-blue-100 text-blue-800'
-      progressClass = 'bg-blue-600'
+      status = "In Progress";
+      statusClass = "bg-blue-100 text-blue-800";
+      progressClass = "bg-blue-600";
     }
 
     return {
       id: section.id,
-      title: section.title.replace('Phase ', '').split(':')[0],
+      title: section.title.replace("Phase ", "").split(":")[0],
       time: section.description,
       status,
       statusClass,
       progress,
       progressClass,
       completed,
-      total
-    }
-  })
-})
+      total,
+    };
+  });
+});
 
 // Methods
 const toggleSection = (sectionId) => {
-  const index = expandedSections.value.indexOf(sectionId)
+  const index = expandedSections.value.indexOf(sectionId);
   if (index > -1) {
-    expandedSections.value.splice(index, 1)
+    expandedSections.value.splice(index, 1);
   } else {
-    expandedSections.value.push(sectionId)
+    expandedSections.value.push(sectionId);
   }
-}
+};
 
 const toggleTask = (taskId) => {
-  sections.value.forEach(section => {
-    section.tasks.forEach(task => {
+  sections.value.forEach((section) => {
+    section.tasks.forEach((task) => {
       if (task.id === taskId) {
-        task.completed = !task.completed
+        task.completed = !task.completed;
         // Auto-complete subtasks if main task is completed
         if (task.completed && task.subtasks) {
-          task.subtasks.forEach(subtask => {
-            subtask.completed = true
-          })
+          task.subtasks.forEach((subtask) => {
+            subtask.completed = true;
+          });
         }
         // Auto-uncomplete subtasks if main task is uncompleted
         if (!task.completed && task.subtasks) {
-          task.subtasks.forEach(subtask => {
-            subtask.completed = false
-          })
+          task.subtasks.forEach((subtask) => {
+            subtask.completed = false;
+          });
         }
       }
-    })
-  })
-  saveProgress()
-}
+    });
+  });
+  saveProgress();
+};
 
 const toggleSubtask = (subtaskId) => {
-  sections.value.forEach(section => {
-    section.tasks.forEach(task => {
+  sections.value.forEach((section) => {
+    section.tasks.forEach((task) => {
       if (task.subtasks) {
-        task.subtasks.forEach(subtask => {
+        task.subtasks.forEach((subtask) => {
           if (subtask.id === subtaskId) {
-            subtask.completed = !subtask.completed
+            subtask.completed = !subtask.completed;
             // Auto-complete main task if all subtasks are completed
-            const allCompleted = task.subtasks.every(st => st.completed)
+            const allCompleted = task.subtasks.every((st) => st.completed);
             if (allCompleted) {
-              task.completed = true
+              task.completed = true;
             } else {
-              task.completed = false
+              task.completed = false;
             }
           }
-        })
+        });
       }
-    })
-  })
-  saveProgress()
-}
+    });
+  });
+  saveProgress();
+};
 
 const saveProgress = () => {
   if (process.client) {
-    localStorage.setItem('todo-progress', JSON.stringify({
-      sections: sections.value,
-      successCriteria: successCriteria.value,
-      expandedSections: expandedSections.value
-    }))
+    localStorage.setItem(
+      "todo-progress",
+      JSON.stringify({
+        sections: sections.value,
+        successCriteria: successCriteria.value,
+        expandedSections: expandedSections.value,
+      }),
+    );
   }
-}
+};
 
 const loadProgress = () => {
   if (process.client) {
-    const saved = localStorage.getItem('todo-progress')
+    const saved = localStorage.getItem("todo-progress");
     if (saved) {
-      const data = JSON.parse(saved)
-      sections.value = data.sections || sections.value
-      successCriteria.value = data.successCriteria || successCriteria.value
-      expandedSections.value = data.expandedSections || expandedSections.value
+      const data = JSON.parse(saved);
+      sections.value = data.sections || sections.value;
+      successCriteria.value = data.successCriteria || successCriteria.value;
+      expandedSections.value = data.expandedSections || expandedSections.value;
     }
   }
-}
+};
 
 // Lifecycle
 onMounted(() => {
-  loadProgress()
-})
+  loadProgress();
+});
 </script>
 
 <style scoped>
@@ -614,7 +933,10 @@ onMounted(() => {
 }
 
 .transition-colors {
-  transition: color 0.2s ease, background-color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
 }
-</style></content>
-<parameter name="filePath">c:\Users\Acer\Documents\workshopvux\components\TodoList.vue
+</style>
+<!-- </content>
+<parameter name="filePath">c:\Users\Acer\Documents\workshopvux\components\TodoList.vue -->
