@@ -5,6 +5,26 @@
         <h1 class="text-xl font-bold">🚀 SpaceX Launches</h1>
       </div>
 
+      <!-- Navigation -->
+      <nav class="flex justify-center">
+        <div class="flex space-x-4 bg-white rounded-lg p-2 shadow-sm">
+          <NuxtLink
+            to="/"
+            class="px-4 py-2 rounded-md text-sm font-medium transition-colors"
+            :class="$route.path === '/' ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100'"
+          >
+            🚀 Launches
+          </NuxtLink>
+          <NuxtLink
+            to="/todo"
+            class="px-4 py-2 rounded-md text-sm font-medium transition-colors"
+            :class="$route.path === '/todo' ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100'"
+          >
+            📋 Todo List
+          </NuxtLink>
+        </div>
+      </nav>
+
       <div class="flex justify-center">
         <TabFilter
           :scopeFilter="scopeFilter"
