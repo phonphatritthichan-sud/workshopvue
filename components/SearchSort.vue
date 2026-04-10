@@ -4,14 +4,12 @@
       type="search"
       placeholder="ค้นหาด้วยชื่อ…"
       :value="searchQuery"
-      @input="$emit('update:searchQuery', $event.target.value)"
+      @input="handleSearchInput"
       class="px-2 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brand"
     />
-    <!-- @input="$emit('update:searchQuery', $event.target.value)" 
-    สร้าง function เเล้วค่อยให้มันทำอะไร -->
     <select
       :value="sortKey"
-      @change="$emit('update:sortKey', $event.target.value)"
+      @change="handleSortKeyChange"
       class="px-2 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brand"
     >
       <option value="date">เรียงตามเวลา</option>
@@ -19,7 +17,7 @@
     </select>
     <select
       :value="sortOrder"
-      @change="$emit('update:sortOrder', $event.target.value)"
+      @change="handleSortOrderChange"
       class="px-2 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brand"
     >
       <option value="desc">มาก → น้อย</option>
@@ -29,6 +27,24 @@
 </template>
 
 <script setup>
-defineProps({ searchQuery: String, sortKey: String, sortOrder: String });
-defineEmits(["update:searchQuery", "update:sortKey", "update:sortOrder"]);
+const props = defineProps({
+  searchQuery: String,
+  sortKey: String,
+  sortOrder: String,
+});
+const emit = defineEmits([
+  "update:searchQuery",
+  "update:sortKey",
+  "update:sortOrder",
+]);
+
+const handleSearchInput = (event) => {
+  emit("update:searchQuery", event.target.value);
+};
+const handleSortKeyChange = (event) => {
+  emit("update:sortKey", event.target.value);
+};
+const handleSortOrderChange = (event) => {
+  emit("update:sortOrder", event.target.value);
+};
 </script>
